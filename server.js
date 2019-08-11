@@ -9,7 +9,7 @@ var db = require("./models");
 
 var PORT = 3000;
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_vgw4d1hb:no4ilp1givbr5utqcujdclq4m6@ds161517.mlab.com:61517/heroku_vgw4d1hb";
 
 var app = express();
 
