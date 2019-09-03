@@ -9,7 +9,7 @@ var db = require("./models");
 
 var PORT = 3000;
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_vgw4d1hb:no4ilp1givbr5utqcujdclq4m6@ds161517.mlab.com:61517/heroku_vgw4d1hb";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_xn5xm63m:mefj86a1glsmvfksk5ei1sol0i@ds217438.mlab.com:17438/heroku_xn5xm63m";
 
 var app = express();
 
@@ -21,16 +21,16 @@ app.use(express.static("public"));
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.get("/scrape", function (req, res) {
-  axios.get("https://www.nytimes.com/section/world").then(function (response) {
+  axios.get("https://www.nhl.com/news/t-277350296").then(function (response) {
     var $ = cheerio.load(response.data);
-    $("h3").each(function (i, element) {
+    $("h1").each(function (i, element) {
       var result = {};
 
       result.title = $(this)
         .children()
         .text()
         .trim();
-      result.link = "https://www.nytimes.com" +
+      result.link = "https://www.nhl.com" +
         $(this)
           .children()
           .attr("href");
