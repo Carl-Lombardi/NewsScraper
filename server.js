@@ -2,6 +2,7 @@
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var logger = require("morgan");
+var path = require("path");
 
 //initialize Express app
 var express = require("express");
@@ -14,7 +15,7 @@ app.use(
   })
 );
 
-app.use(express.static(process.cwd() + "/public"));
+app.use(express.static(path.join(_dirname, "/public")));
 //Require set up handlebars
 var exphbs = require("express-handlebars");
 app.engine(
