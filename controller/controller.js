@@ -93,7 +93,7 @@ router.get("/readArticle/:id", function(req, res) {
   var hbsObj = {
     article: [],
     body: []
-  };
+  }
 
   Article.findOne({ _id: articleId })
     .populate("comment")
