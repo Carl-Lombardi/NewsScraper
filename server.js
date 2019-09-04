@@ -15,7 +15,6 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(_dirname, "/public")));
 //Require set up handlebars
 var exphbs = require("express-handlebars");
 app.engine(
