@@ -13,7 +13,7 @@ router.get("/", function(req, res) {
 });
 
 router.get("/scrape", function(req, res) {
-  request("https://www.theverge.com", function(error, response, html) {
+  request("http://www.theverge.com", function(error, response, html) {
     var $ = cheerio.load(html);
     var titlesArray = [];
 
@@ -93,7 +93,7 @@ router.get("/readArticle/:id", function(req, res) {
   var hbsObj = {
     article: [],
     body: []
-  }
+  };
 
   Article.findOne({ _id: articleId })
     .populate("comment")
