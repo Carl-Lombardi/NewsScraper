@@ -28,7 +28,7 @@ app.set("view engine", "handlebars");
 //connecting to MongoDB
 //mongoose.connect("mongodb://localhost/scraped_news");
 const MONGODB_URI =
-  process.env.MONGODB_URI || "https://hockeyscraper2019.herokuapp.com/";
+  process.env.MONGODB_URI || "mongodb://heroku_xn5xm63m:mefj86a1glsmvfksk5ei1sol0i@ds217438.mlab.com:17438/heroku_xn5xm63m";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 var db = mongoose.connection;
