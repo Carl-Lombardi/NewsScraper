@@ -1,53 +1,39 @@
-body { 
-    background-color: black
+body {
+  background-size: 600px;
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
-
-#wrapper {
-  width: 960px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 5%;
+main {
+  flex: 1 0 auto;
 }
-
-#articles {
-  display: inline-block;
-  overflow: auto;
-  width: 60%;
-  height: 700px;
-}
-
-h1, h2 {
-    color: red;
-}
-
-button {
-    display: block;
-    background-color: black;
-    color: rgba(255, 255, 255, 0.726);
-    font-family: 'Crimson Pro', serif;
-    font-size: 16px;
-    padding: 5px;
-    position: relative;
-    border: 1px solid red;
-  }
-
-#notes {
-  float: right;
-  width: 30%;
-}
-
-textarea, input {
-  display: block;
-  width: 100%;
-  background-color: #FCF5C7;
-}
-
-input {
-  height: 36px;
-  font-size: 24px;
-}
-
-textarea {
+.articleBody {
   height: 200px;
-  font-size: 18px;
+  font-size: 20px;
+  overflow-y: scroll;
+  line-height: 150%;
+}
+#btnSignUp {
+  background-color: #635f60;
+}
+#nameComment {
+  /*border-bottom: 2px solid #ec407a;*/
+  font-weight: bold;
+  background: #635f60;
+  color: white;
+}
+.input-field input[type="text"]:focus + label {
+  color: #635f60;
+}
+.input-field input[type="text"]:focus {
+  border-bottom: 1px solid #635f60;
+  box-shadow: 0 1px 0 0 #000;
+}
+.input-field .prefix.active {
+  color: #635f60;
+}
+.topnav {
+  background-color: #635f60;
 }

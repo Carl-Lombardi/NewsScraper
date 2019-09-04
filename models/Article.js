@@ -7,18 +7,17 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
-
   link: {
     type: String,
     required: true
   },
-  
-  note: {
-    type: Schema.Types.ObjectId,
-    ref: "Note"
-  }
+  comment: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment"
+    }
+  ]
 });
-
 var Article = mongoose.model("Article", ArticleSchema);
 
 module.exports = Article;

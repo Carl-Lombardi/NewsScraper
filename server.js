@@ -1,107 +1,46 @@
-var express = require("express");
-var logger = require("morgan");
+//dependencies
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-var axios = require("axios");
-var cheerio = require("cheerio");
+var logger = require("morgan");
 
-
-var db = require("./models");
-
-var PORT = 3000;
-
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_xn5xm63m:mefj86a1glsmvfksk5ei1sol0i@ds217438.mlab.com:17438/heroku_xn5xm63m";
-
+//initialize Express app
+var express = require("express");
 var app = express();
 
 app.use(logger("dev"));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("public"));
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 
+app.use(express.static(process.cwd() + "/public"));
+//Require set up handlebars
+var exphbs = require("express-handlebars");
+app.engine(
+  "handlebars",
+  exphbs({
+    defaultLayout: "main"
+  })
+);
+app.set("view engine", "handlebars");
+
+//connecting to MongoDB
+//mongoose.connect("mongodb://localhost/scraped_news");
+const MONGODB_URI =
+  process.env.MONGODB_URI || "https://hockeyscraper2019.herokuapp.com/";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-app.get("/scrape", function (req, res) {
-  axios.get("https://www.nhl.com/news/t-277350296").then(function (response) {
-    var $ = cheerio.load(response.data);
-    $("h1").each(function (i, element) {
-      var result = {};
-
-      result.title = $(this)
-        .children()
-        .text()
-        .trim();
-      result.link = "https://www.nhl.com" +
-        $(this)
-          .children()
-          .attr("href");
-
-      db.Article.create(result)
-        .then(function (dbArticle) {
-          console.log(dbArticle);
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    });
-
-    res.send("Scrape Complete");
-  });
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
+  console.log("Connected to Mongoose!");
 });
 
-app.get("/articles", function (req, res) {
-  db.Article.find({})
-    .then(function (dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      res.json(err);
-    });
-});
-
-app.get("/clear", function (req, res) {
-  db.Article.find({})
-    .then(function (dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      res.json(err);
-    });
-});
-
-app.get("/articles/:id", function (req, res) {
-  db.Article.findOne({ _id: req.params.id })
-    .populate("note")
-    .then(function (dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      res.json(err);
-    });
-});
-
-app.post("/articles/:id", function (req, res) {
-  db.Note.create(req.body)
-    .then(function (dbNote) {
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
-    })
-    .then(function (dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      res.json(err);
-    });
-});
-
-app.delete('/articles/:id', function (req, res) {
-  db.Article.findByIdAndRemove({ _id: req.params.id })
-    .then(function (dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      res.json(err);
-    });
-});
-
-app.listen(PORT, function () {
-  console.log("App running on port " + PORT + "!");
+var routes = require("./controller/controller.js");
+app.use("/", routes);
+//Create localhost port
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log("Listening on PORT " + port);
 });
