@@ -112,7 +112,7 @@ router.get("/readArticle/:id", function(req, res) {
               .children("p")
               .text();
 
-            res.render("article", hbsObj);
+            res.render(article, hbsObj);
             return false;
           });
         });
