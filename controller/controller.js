@@ -13,7 +13,7 @@ router.get("/", function(req, res) {
 });
 
 router.get("/scrape", function(req, res) {
-  request("http://www.nhl.com", function(error, response, html) {
+  request("https://www.theverge.com", function(error, response, html) {
     var $ = cheerio.load(html);
     var titlesArray = [];
 
@@ -85,7 +85,7 @@ router.get("/clearAll", function(req, res) {
       console.log("removed all articles");
     }
   });
-  res.redirect("/articles-json");
+  res.redirect("/");
 });
 
 router.get("/readArticle/:id", function(req, res) {
